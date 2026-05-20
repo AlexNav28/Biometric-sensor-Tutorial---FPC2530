@@ -6,7 +6,7 @@
 
 ## Tutorial Brainstorm
 
-This tutorial walks through setting up and using the **SparkFun Fingerprint Sensor – FPC2534 (Qwiic)** over I2C with an ESP32-S3 microcontroller. The FPC2534 is part of the FPC AllKey Pro Biometric System family by Fingerprint Cards AB — a complete system-in-package that bundles a capacitive fingerprint sensor, an MCU, flash storage, and onboard authentication software into a tiny 11 mm round LGA package. The SparkFun breakout board (SEN-29854) exposes the sensor's I2C interface through a Qwiic connector, making it plug-and-play for prototyping. The goal is to demonstrate the three core capabilities of the sensor — **fingerprint enrollment**, **fingerprint identification/authentication**, and **touch navigation** — each with its own standalone code example, and then combine everything into a single unified demo at the end. One important caveat: at the time of writing, the SparkFun FPC2534 Arduino library is **not available** through the Arduino IDE Library Manager or PlatformIO's library registry, so manual library installation is required (downloading the ZIP from GitHub and placing it in your libraries folder). The I2C implementation is also only supported on **ESP32** and **RP2 (RP2040/RP2350)** platforms because the FPC2534's I2C transaction structure requires low-level bus access that the standard Arduino Wire library doesn't support — SparkFun bundles custom I2C helper functions for those two platforms only.
+This tutorial walks through setting up and using the **SparkFun Fingerprint Sensor – FPC2534 (Qwiic)** over I2C with an ESP32-S3 microcontroller. The FPC2534 is part of the FPC AllKey Pro Biometric System family by Fingerprint Cards AB — a complete system-in-package that bundles a capacitive fingerprint sensor, an MCU, flash storage, and onboard authentication software into a tiny 11 mm round LGA package. The SparkFun breakout board (SEN-29854) exposes the sensor's I2C interface through a Qwiic connector, making it plug-and-play for prototyping. The goal is to demonstrate the three core capabilities of the sensor — **fingerprint enrollment**, **fingerprint identification/authentication**, and **touch navigation** — each with its own standalone code example, and then combine everything into a single unified demo at the end. One important caveat: at the time of writing, the SparkFun FPC2534 Arduino library is **not available** through the Arduino IDE Library Manager or PlatformIO's library registry, so manual library installation is required (downloading the ZIP from GitHub and placing it in your libraries folder). The I2C implementation is also only supported on **ESP32** and **RP2 (RP2040/RP2350)** platforms because the FPC2534's I2C transaction structure requires low-level bus access that the standard Arduino Wire library doesn't support — SparkFun bundles custom I2C helper functions for those two platforms only. +++ Needs more details about the UART and SPI ++++
 
 ---
 
@@ -112,7 +112,7 @@ Make sure the **interface selection jumpers** on the SparkFun board are set to *
 
 ## Library Installation (Manual)
 
-> ⚠️ **At the time of writing, the SparkFun FPC2534 Arduino library is NOT available through the Arduino IDE Library Manager or PlatformIO's library registry.** You must install it manually.
+> **At the time of Creatig this Tutorial, the SparkFun FPC2534 Arduino library is NOT available through the Arduino IDE Library Manager or PlatformIO's library registry.** You must install it manually.
 
 ### Steps
 
@@ -219,7 +219,7 @@ Enrollment stores a new fingerprint template on the sensor's internal flash. The
 // --- Enrollment Callback ---
 void onEnroll(uint8_t samplesRemaining, uint8_t feedback) {
     if (samplesRemaining == 0) {
-        Serial.println("\n✅ Enrollment complete!");
+        Serial.println("\nEnrollment complete!");
     } else {
         Serial.print("Samples remaining: ");
         Serial.println(samplesRemaining);
@@ -257,10 +257,10 @@ After enrolling one or more fingerprints, the sensor can identify/verify a finge
 // --- Identify Callback ---
 void onIdentify(bool matched, uint16_t templateId) {
     if (matched) {
-        Serial.print("✅ Match! Template ID: ");
+        Serial.print("Match! Template ID: ");
         Serial.println(templateId);
     } else {
-        Serial.println("❌ No match.");
+        Serial.println("No match.");
     }
 }
 
@@ -288,13 +288,13 @@ The FPC2534 can also function as a miniature touchpad, detecting swipe gestures 
 // --- Navigation Callback ---
 void onNavigation(uint8_t gesture) {
     switch (gesture) {
-        case NAV_SWIPE_UP:    Serial.println("⬆️ Swipe UP");    break;
-        case NAV_SWIPE_DOWN:  Serial.println("⬇️ Swipe DOWN");  break;
-        case NAV_SWIPE_LEFT:  Serial.println("⬅️ Swipe LEFT");  break;
-        case NAV_SWIPE_RIGHT: Serial.println("➡️ Swipe RIGHT"); break;
-        case NAV_PRESS:       Serial.println("👆 Press");        break;
-        case NAV_LONG_PRESS:  Serial.println("👆 Long Press");   break;
-        default:              Serial.println("❓ Unknown");      break;
+        case NAV_SWIPE_UP:    Serial.println("Swipe UP");    break;
+        case NAV_SWIPE_DOWN:  Serial.println("Swipe DOWN");  break;
+        case NAV_SWIPE_LEFT:  Serial.println("Swipe LEFT");  break;
+        case NAV_SWIPE_RIGHT: Serial.println("Swipe RIGHT"); break;
+        case NAV_PRESS:       Serial.println("Press");        break;
+        case NAV_LONG_PRESS:  Serial.println("Long Press");   break;
+        default:              Serial.println("Unknown");      break;
     }
 }
 
@@ -342,7 +342,7 @@ void onError(uint16_t err) {
 
 void onEnroll(uint8_t remaining, uint8_t feedback) {
     if (remaining == 0) {
-        Serial.println("\n✅ Enrollment complete!");
+        Serial.println("\nEnrollment complete!");
         printMenu();
     } else {
         Serial.print("  Touches remaining: "); Serial.println(remaining);
@@ -351,9 +351,9 @@ void onEnroll(uint8_t remaining, uint8_t feedback) {
 
 void onIdentify(bool matched, uint16_t id) {
     if (matched) {
-        Serial.print("✅ Matched template ID: "); Serial.println(id);
+        Serial.print("Matched template ID: "); Serial.println(id);
     } else {
-        Serial.println("❌ No match found.");
+        Serial.println("No match found.");
     }
     printMenu();
 }
